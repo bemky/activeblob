@@ -36,6 +36,6 @@ Next steps:
    user.avatar.url
    blob.url(disposition: 'inline', filename: 'custom.jpg')
 
-For more information, visit: https://github.com/benehmke/activeblob
+For more information, visit: https://github.com/bemky/activeblob
 
 ===============================================================================

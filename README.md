@@ -405,7 +405,7 @@ rails test
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/benehmke/activeblob.
+Bug reports and pull requests are welcome on GitHub at https://github.com/bemky/activeblob.
 
 ## License
 

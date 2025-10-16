@@ -5,14 +5,14 @@ Gem::Specification.new do |spec|
   spec.version     = ActiveBlob::VERSION
   spec.authors     = ["Ben Ehmke"]
   spec.email       = ["ben@ehmke.com"]
-  spec.homepage    = "https://github.com/benehmke/activeblob"
+  spec.homepage    = "https://github.com/bemky/activeblob"
   spec.summary     = "Content-addressable blob storage for Rails applications"
   spec.description = "ActiveBlob provides a Blob model with SHA1-based deduplication, polymorphic attachments, and support for multiple storage backends (filesystem, S3). Includes automatic metadata extraction for images, videos, and PDFs."
   spec.license     = "MIT"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/benehmke/activeblob"
-  spec.metadata["changelog_uri"] = "https://github.com/benehmke/activeblob/blob/master/CHANGELOG.md"
+  spec.metadata["source_code_uri"] = "https://github.com/bemky/activeblob"
+  spec.metadata["changelog_uri"] = "https://github.com/bemky/activeblob/blob/master/CHANGELOG.md"
 
   spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
