@@ -4,7 +4,7 @@ module ActiveBlob
 
     class_methods do
       def has_one_blob(name, dependent: :destroy)
-        has_one :"#{name}", -> { where(type: name) }, class_name: "ActiveBlob::Attachment", as: :record, inverse_of: :record, dependent: dependent
+        has_one :"#{name}", -> { where(type: name) }, class_name: "::ActiveBlob::Attachment", as: :record, inverse_of: :record, dependent: dependent
 
         class_eval <<-RUBY, __FILE__, __LINE__ + 1
           def #{name}_attributes=(attrs)
@@ -50,7 +50,7 @@ module ActiveBlob
           autosave: true,
           inverse_of: :record,
           as: :record,
-          class_name: 'ActiveBlob::Attachment'
+          class_name: '::ActiveBlob::Attachment'
         }.merge(options)
         singular = name.to_s.singularize
         has_many :"#{name}", -> { where(type: singular).order(order: :asc) }, **options

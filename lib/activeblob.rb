@@ -5,6 +5,13 @@ require "activeblob/storage/filesystem"
 require "activeblob/storage/s3"
 require "activeblob/model_extensions"
 
+# Require models explicitly since they're in a gem
+require_relative "../app/models/activeblob/blob"
+require_relative "../app/models/activeblob/attachment"
+require_relative "../app/models/activeblob/blob/image"
+require_relative "../app/models/activeblob/blob/video"
+require_relative "../app/models/activeblob/blob/pdf"
+
 module ActiveBlob
   mattr_accessor :storage_config
 
