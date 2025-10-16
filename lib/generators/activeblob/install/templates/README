@@ -1,0 +1,41 @@
+===============================================================================
+
+ActiveBlob has been installed!
+
+Next steps:
+
+1. Run the migrations:
+   rails db:migrate
+
+2. Configure your storage backend in config/initializers/activeblob.rb
+
+3. Add blob attachments to your models:
+
+   # Single attachment
+   class User < ApplicationRecord
+     has_one_blob :avatar
+   end
+
+   # Multiple attachments
+   class Post < ApplicationRecord
+     has_many_blobs :images
+   end
+
+4. Use in your application:
+
+   # Create with file upload
+   user.avatar = params[:avatar]
+
+   # Create with URL
+   blob = ActiveBlob::Blob.new(url: "https://example.com/image.jpg")
+
+   # Create with base64
+   blob = ActiveBlob::Blob.new(base64: base64_string, content_type: "image/png")
+
+   # Get URL
+   user.avatar.url
+   blob.url(disposition: 'inline', filename: 'custom.jpg')
+
+For more information, visit: https://github.com/benehmke/activeblob
+
+===============================================================================
