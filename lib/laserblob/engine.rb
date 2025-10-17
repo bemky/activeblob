@@ -1,8 +1,8 @@
 require "rails"
 
-module ActiveBlob
+module LaserBlob
   class Engine < ::Rails::Engine
-    isolate_namespace ActiveBlob
+    isolate_namespace LaserBlob
 
     config.autoload_paths << File.expand_path('../../app/models', __dir__)
 
@@ -10,10 +10,10 @@ module ActiveBlob
       g.test_framework :test_unit, fixture: false
     end
 
-    initializer "activeblob.active_record", before: :load_config_initializers do
+    initializer "laserblob.active_record", before: :load_config_initializers do
       ActiveSupport.on_load(:active_record) do
-        require "activeblob/model_extensions"
-        ActiveRecord::Base.include(ActiveBlob::ModelExtensions)
+        require "laserblob/model_extensions"
+        ActiveRecord::Base.include(LaserBlob::ModelExtensions)
       end
     end
   end

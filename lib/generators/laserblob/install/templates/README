@@ -1,13 +1,13 @@
 ===============================================================================
 
-ActiveBlob has been installed!
+LaserBlob has been installed!
 
 Next steps:
 
 1. Run the migrations:
    rails db:migrate
 
-2. Configure your storage backend in config/initializers/activeblob.rb
+2. Configure your storage backend in config/initializers/laserblob.rb
 
 3. Add blob attachments to your models:
 
@@ -27,15 +27,15 @@ Next steps:
    user.avatar = params[:avatar]
 
    # Create with URL
-   blob = ActiveBlob::Blob.new(url: "https://example.com/image.jpg")
+   blob = LaserBlob::Blob.new(url: "https://example.com/image.jpg")
 
    # Create with base64
-   blob = ActiveBlob::Blob.new(base64: base64_string, content_type: "image/png")
+   blob = LaserBlob::Blob.new(base64: base64_string, content_type: "image/png")
 
    # Get URL
    user.avatar.url
    blob.url(disposition: 'inline', filename: 'custom.jpg')
 
-For more information, visit: https://github.com/bemky/activeblob
+For more information, visit: https://github.com/laserkats/laserblob
 
 ===============================================================================

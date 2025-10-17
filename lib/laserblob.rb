@@ -1,18 +1,18 @@
-require "activeblob/version"
-require "activeblob/engine"
-require "activeblob/blob_helpers"
-require "activeblob/storage/filesystem"
-require "activeblob/storage/s3"
-require "activeblob/model_extensions"
+require "laserblob/version"
+require "laserblob/engine"
+require "laserblob/blob_helpers"
+require "laserblob/storage/filesystem"
+require "laserblob/storage/s3"
+require "laserblob/model_extensions"
 
 # Require models explicitly since they're in a gem
-require_relative "../app/models/activeblob/blob"
-require_relative "../app/models/activeblob/attachment"
-require_relative "../app/models/activeblob/blob/image"
-require_relative "../app/models/activeblob/blob/video"
-require_relative "../app/models/activeblob/blob/pdf"
+require_relative "../app/models/laserblob/blob"
+require_relative "../app/models/laserblob/attachment"
+require_relative "../app/models/laserblob/blob/image"
+require_relative "../app/models/laserblob/blob/video"
+require_relative "../app/models/laserblob/blob/pdf"
 
-module ActiveBlob
+module LaserBlob
   mattr_accessor :storage_config
 
   class << self
@@ -25,9 +25,9 @@ module ActiveBlob
         config = storage_config || default_storage_config
         case config[:storage]
         when 'filesystem', nil
-          ActiveBlob::Storage::Filesystem.new(config)
+          LaserBlob::Storage::Filesystem.new(config)
         when 's3'
-          ActiveBlob::Storage::S3.new(config)
+          LaserBlob::Storage::S3.new(config)
         else
           raise "Unknown storage type: #{config[:storage]}"
         end

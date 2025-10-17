@@ -1,4 +1,4 @@
-module ActiveBlob
+module LaserBlob
   class Blob::PDF < Blob
     validates :content_type, presence: true, format: /\Aapplication\/pdf\Z/
 

@@ -1,12 +1,12 @@
-module ActiveBlob
+module LaserBlob
   class Blob < ActiveRecord::Base
     self.table_name = 'blobs'
 
-    include ActiveBlob::BlobHelpers
+    include LaserBlob::BlobHelpers
 
     attr_reader :data
 
-    has_many :attachments, class_name: 'ActiveBlob::Attachment', dependent: :destroy
+    has_many :attachments, class_name: 'LaserBlob::Attachment', dependent: :destroy
     validates :file, presence: true, on: :create
     validates :url, format: { with: URI::regexp(%w(http https)) }, on: :create, if: ->(b) { b.url }
     validates :content_type, presence: true

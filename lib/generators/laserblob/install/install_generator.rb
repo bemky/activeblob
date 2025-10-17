@@ -1,7 +1,7 @@
 require 'rails/generators'
 require 'rails/generators/migration'
 
-module Activeblob
+module Laserblob
   module Generators
     class InstallGenerator < Rails::Generators::Base
       include Rails::Generators::Migration
@@ -19,7 +19,7 @@ module Activeblob
       end
 
       def create_initializer
-        template "initializer.rb", "config/initializers/activeblob.rb"
+        template "initializer.rb", "config/initializers/laserblob.rb"
       end
 
       def show_readme

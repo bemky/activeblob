@@ -6,7 +6,7 @@ require 'tempfile'
 require 'net/http'
 require 'uri'
 
-module ActiveBlob
+module LaserBlob
   module BlobHelpers
     extend ActiveSupport::Concern
 
@@ -29,7 +29,7 @@ module ActiveBlob
 
     class_methods do
       def storage
-        ActiveBlob.storage
+        LaserBlob.storage
       end
 
       def file_sha1(file)

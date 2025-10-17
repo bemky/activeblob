@@ -1,6 +1,6 @@
-# ActiveBlob
+# LaserBlob
 
-ActiveBlob is a content-addressable blob storage system for Rails applications. It provides SHA1-based deduplication, polymorphic attachments, and support for multiple storage backends (filesystem and S3).
+LaserBlob is a content-addressable blob storage system for Rails applications. It provides SHA1-based deduplication, polymorphic attachments, and support for multiple storage backends (filesystem and S3).
 
 ## Features
 
@@ -16,7 +16,7 @@ ActiveBlob is a content-addressable blob storage system for Rails applications. 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'activeblob'
+gem 'laserblob'
 ```
 
 And then execute:
@@ -28,18 +28,18 @@ bundle install
 Run the installer to generate migrations and configuration:
 
 ```bash
-rails generate activeblob:install
+rails generate laserblob:install
 rails db:migrate
 ```
 
 ## Configuration
 
-Configure your storage backend in `config/initializers/activeblob.rb`:
+Configure your storage backend in `config/initializers/laserblob.rb`:
 
 ### Filesystem Storage (Default)
 
 ```ruby
-ActiveBlob.configure do |config|
+LaserBlob.configure do |config|
   config.storage_config = {
     storage: 'filesystem',
     path: Rails.root.join('storage', 'blobs')
@@ -50,7 +50,7 @@ end
 ### S3 Storage
 
 ```ruby
-ActiveBlob.configure do |config|
+LaserBlob.configure do |config|
   config.storage_config = {
     storage: 's3',
     bucket: ENV['S3_BUCKET'],
@@ -97,21 +97,21 @@ post.save
 #### From File Upload
 
 ```ruby
-blob = ActiveBlob::Blob.new(file: params[:file])
+blob = LaserBlob::Blob.new(file: params[:file])
 blob.save
 ```
 
 #### From URL
 
 ```ruby
-blob = ActiveBlob::Blob.new(url: "https://example.com/image.jpg")
+blob = LaserBlob::Blob.new(url: "https://example.com/image.jpg")
 blob.save
 ```
 
 #### From Base64
 
 ```ruby
-blob = ActiveBlob::Blob.new(
+blob = LaserBlob::Blob.new(
   base64: base64_string,
   content_type: "image/png",
   filename: "image.png"
@@ -122,7 +122,7 @@ blob.save
 #### From Raw Data
 
 ```ruby
-blob = ActiveBlob::Blob.new(data: binary_data)
+blob = LaserBlob::Blob.new(data: binary_data)
 blob.content_type = "image/jpeg"
 blob.save
 ```
@@ -151,9 +151,9 @@ end
 
 ### Blob Types
 
-ActiveBlob automatically selects the appropriate blob type based on content type:
+LaserBlob automatically selects the appropriate blob type based on content type:
 
-#### Images (ActiveBlob::Blob::Image)
+#### Images (LaserBlob::Blob::Image)
 
 Requires `ruby-vips` gem:
 
@@ -168,7 +168,7 @@ Automatically extracts:
 - Aspect ratio
 
 ```ruby
-image = ActiveBlob::Blob.new(file: image_file)
+image = LaserBlob::Blob.new(file: image_file)
 image.save
 
 image.width          # => 1920
@@ -177,7 +177,7 @@ image.aspect_ratio   # => 1.777...
 image.dominant_color # => "255,128,0"
 ```
 
-#### Videos (ActiveBlob::Blob::Video)
+#### Videos (LaserBlob::Blob::Video)
 
 Requires `streamio-ffmpeg` gem:
 
@@ -193,7 +193,7 @@ Automatically extracts:
 - Frame rate
 
 ```ruby
-video = ActiveBlob::Blob.new(file: video_file)
+video = LaserBlob::Blob.new(file: video_file)
 video.save
 
 video.duration    # => 120.5 (seconds)
@@ -203,7 +203,7 @@ video.codec       # => "h264"
 video.frame_rate  # => 30.0
 ```
 
-#### PDFs (ActiveBlob::Blob::PDF)
+#### PDFs (LaserBlob::Blob::PDF)
 
 Requires `pdf-reader` gem:
 
@@ -217,7 +217,7 @@ Automatically extracts:
 - Aspect ratio
 
 ```ruby
-pdf = ActiveBlob::Blob.new(file: pdf_file)
+pdf = LaserBlob::Blob.new(file: pdf_file)
 pdf.save
 
 pdf.page_count    # => 10
@@ -226,14 +226,14 @@ pdf.aspect_ratio  # => 0.707 (based on first page)
 
 ### Deduplication
 
-ActiveBlob automatically deduplicates blobs based on SHA1 hash:
+LaserBlob automatically deduplicates blobs based on SHA1 hash:
 
 ```ruby
 # Upload the same file twice
-blob1 = ActiveBlob::Blob.new(file: file)
+blob1 = LaserBlob::Blob.new(file: file)
 blob1.save
 
-blob2 = ActiveBlob::Blob.new(file: file)
+blob2 = LaserBlob::Blob.new(file: file)
 blob2.save
 
 # blob1 and blob2 reference the same record
@@ -246,7 +246,7 @@ Attachments link blobs to your records:
 
 ```ruby
 # Create attachment explicitly
-attachment = ActiveBlob::Attachment.create(
+attachment = LaserBlob::Attachment.create(
   record: user,
   blob: blob,
   filename: "avatar.jpg",
@@ -283,17 +283,17 @@ post.update(
 
 ### Models
 
-- **ActiveBlob::Blob**: Base model for all blobs
-  - `ActiveBlob::Blob::Image`: Image blobs with metadata extraction
-  - `ActiveBlob::Blob::Video`: Video blobs with metadata extraction
-  - `ActiveBlob::Blob::PDF`: PDF blobs with metadata extraction
+- **LaserBlob::Blob**: Base model for all blobs
+  - `LaserBlob::Blob::Image`: Image blobs with metadata extraction
+  - `LaserBlob::Blob::Video`: Video blobs with metadata extraction
+  - `LaserBlob::Blob::PDF`: PDF blobs with metadata extraction
 
-- **ActiveBlob::Attachment**: Polymorphic join model linking blobs to records
+- **LaserBlob::Attachment**: Polymorphic join model linking blobs to records
 
 ### Storage Backends
 
-- **ActiveBlob::Storage::Filesystem**: Store blobs on local filesystem
-- **ActiveBlob::Storage::S3**: Store blobs on S3 or S3-compatible services
+- **LaserBlob::Storage::Filesystem**: Store blobs on local filesystem
+- **LaserBlob::Storage::S3**: Store blobs on S3 or S3-compatible services
 
 ### Database Schema
 
@@ -336,10 +336,10 @@ add_index :attachments, [:blob_id, :record_id, :record_type, :type, :filename],
 
 ### Custom Blob Types
 
-Create custom blob types by subclassing `ActiveBlob::Blob`:
+Create custom blob types by subclassing `LaserBlob::Blob`:
 
 ```ruby
-class ActiveBlob::Blob::Audio < ActiveBlob::Blob
+class LaserBlob::Blob::Audio < LaserBlob::Blob
   validates :content_type, format: /\Aaudio\/.*\Z/
 
   def duration
@@ -405,7 +405,7 @@ rails test
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/bemky/activeblob.
+Bug reports and pull requests are welcome on GitHub at https://github.com/laserkats/laserblob.
 
 ## License
 

@@ -1,6 +1,6 @@
 require 'aws-sdk-s3'
 
-module ActiveBlob
+module LaserBlob
   module Storage
     class S3
       attr_reader :bucket, :client

@@ -1,6 +1,6 @@
 require 'fileutils'
 
-module ActiveBlob
+module LaserBlob
   module Storage
     class Filesystem
       attr_reader :path

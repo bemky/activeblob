@@ -1,4 +1,4 @@
-module ActiveBlob
+module LaserBlob
   class Blob::Video < Blob
     validates :content_type, presence: true, format: /\Avideo\/.*\Z/
 

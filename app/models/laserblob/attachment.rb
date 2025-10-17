@@ -1,9 +1,9 @@
-module ActiveBlob
+module LaserBlob
   class Attachment < ActiveRecord::Base
     self.table_name = 'attachments'
     self.inheritance_column = nil
 
-    belongs_to :blob, class_name: 'ActiveBlob::Blob'
+    belongs_to :blob, class_name: 'LaserBlob::Blob'
     belongs_to :record, polymorphic: true
 
     before_validation { self.order ||= 0 }
@@ -19,14 +19,14 @@ module ActiveBlob
     end
 
     def file=(file)
-      self.filename ||= ActiveBlob::BlobHelpers.filename_from_file(file)
-      self.blob = ActiveBlob::Blob.new(file: file)
+      self.filename ||= LaserBlob::BlobHelpers.filename_from_file(file)
+      self.blob = LaserBlob::Blob.new(file: file)
     end
 
     def url=(url)
-      file = ActiveBlob::Blob.download_url(url)
+      file = LaserBlob::Blob.download_url(url)
       self.filename = file.original_filename
-      self.blob = ActiveBlob::Blob.create!(file: file)
+      self.blob = LaserBlob::Blob.create!(file: file)
     end
 
     def default_filename

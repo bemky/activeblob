@@ -1,4 +1,4 @@
-module ActiveBlob
+module LaserBlob
   class Blob::Image < Blob
     validates :content_type, presence: true, format: /\Aimage\/\w+\Z/
 

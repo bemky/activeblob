@@ -1,5 +1,5 @@
-# ActiveBlob Configuration
-ActiveBlob.configure do |config|
+# LaserBlob Configuration
+LaserBlob.configure do |config|
   # Storage configuration
   # For filesystem storage (default):
   config.storage_config = {

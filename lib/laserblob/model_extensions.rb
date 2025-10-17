@@ -1,10 +1,10 @@
-module ActiveBlob
+module LaserBlob
   module ModelExtensions
     extend ActiveSupport::Concern
 
     class_methods do
       def has_one_blob(name, dependent: :destroy)
-        has_one :"#{name}", -> { where(type: name) }, class_name: "::ActiveBlob::Attachment", as: :record, inverse_of: :record, dependent: dependent
+        has_one :"#{name}", -> { where(type: name) }, class_name: "::LaserBlob::Attachment", as: :record, inverse_of: :record, dependent: dependent
 
         class_eval <<-RUBY, __FILE__, __LINE__ + 1
           def #{name}_attributes=(attrs)
@@ -17,7 +17,7 @@ module ActiveBlob
               attachment.filename = (attrs[:filename] || attrs['filename']) if (attrs[:filename] || attrs['filename'])
               attachment.blob_id = (attrs[:blob_id] || attrs['blob_id']) if (attrs[:blob_id] || attrs['blob_id'])
             else
-              attachment = ActiveBlob::Attachment.new({
+              attachment = LaserBlob::Attachment.new({
                 order: 0,
                 filename: (attrs[:filename] || attrs['filename']),
                 blob_id: (attrs[:blob_id] || attrs['blob_id']),
@@ -29,10 +29,10 @@ module ActiveBlob
           end
 
           def #{name}=(file)
-            if file && !file.is_a?(ActiveBlob::Attachment)
-              file = ActiveBlob::Attachment.new({
+            if file && !file.is_a?(LaserBlob::Attachment)
+              file = LaserBlob::Attachment.new({
                 blob: file,
-                filename: ActiveBlob::BlobHelpers.filename_from_file(file),
+                filename: LaserBlob::BlobHelpers.filename_from_file(file),
                 type: '#{name}'
               })
             elsif file
@@ -50,7 +50,7 @@ module ActiveBlob
           autosave: true,
           inverse_of: :record,
           as: :record,
-          class_name: '::ActiveBlob::Attachment'
+          class_name: '::LaserBlob::Attachment'
         }.merge(options)
         singular = name.to_s.singularize
         has_many :"#{name}", -> { where(type: singular).order(order: :asc) }, **options
@@ -70,7 +70,7 @@ module ActiveBlob
                 attachment.blob_id = (attrs[:blob_id] || attrs['blob_id']) if (attrs[:blob_id] || attrs['blob_id'])
                 attachment
               else
-                ActiveBlob::Attachment.new({
+                LaserBlob::Attachment.new({
                   order: i,
                   filename: (attrs[:filename] || attrs['filename']),
                   blob_id: (attrs[:blob_id] || attrs['blob_id']),
@@ -84,23 +84,23 @@ module ActiveBlob
 
           def #{name}=(files)
             files = files.map.with_index do |file, i|
-              if file.is_a?(ActiveBlob::Attachment)
+              if file.is_a?(LaserBlob::Attachment)
                 file.type = '#{singular}'
                 file.order = i
                 file
-              elsif file.is_a?(ActiveBlob::Blob)
-                ActiveBlob::Attachment.new({
+              elsif file.is_a?(LaserBlob::Blob)
+                LaserBlob::Attachment.new({
                   order: i,
                   type: '#{singular}',
                   blob: file,
-                  filename: ActiveBlob::BlobHelpers.filename_from_file(file)
+                  filename: LaserBlob::BlobHelpers.filename_from_file(file)
                 })
               else
-                ActiveBlob::Attachment.new({
+                LaserBlob::Attachment.new({
                   order: i,
                   type: '#{singular}',
-                  blob: ActiveBlob::Blob.new(file: file),
-                  filename: ActiveBlob::BlobHelpers.filename_from_file(file)
+                  blob: LaserBlob::Blob.new(file: file),
+                  filename: LaserBlob::BlobHelpers.filename_from_file(file)
                 })
               end
             end
